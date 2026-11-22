@@ -1,0 +1,38 @@
+name: Build TimeRepeat IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build unsigned iOS app
+        working-directory: TimeRepeat
+        run: |
+          xcodebuild \
+            -project TimeRepeat.xcodeproj \
+            -scheme TimeRepeat \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$RUNNER_TEMP/TimeRepeatBuild" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package unsigned IPA
+        run: |
+          mkdir -p "$RUNNER_TEMP/ipa/Payload"
+          cp -R "$RUNNER_TEMP/TimeRepeatBuild/Build/Products/Release-iphoneos/TimeRepeat.app" "$RUNNER_TEMP/ipa/Payload/"
+          cd "$RUNNER_TEMP/ipa"
+          zip -r "$GITHUB_WORKSPACE/TimeRepeat-unsigned.ipa" Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TimeRepeat-unsigned-IPA
+          path: TimeRepeat-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 7
