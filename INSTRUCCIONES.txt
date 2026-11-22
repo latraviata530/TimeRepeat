@@ -1,0 +1,17 @@
+TIMEREPEAT - paquete de compilación en GitHub
+
+1. Crea un repositorio nuevo en GitHub, por ejemplo: TimeRepeat.
+2. Descomprime este ZIP.
+3. Sube TODO el contenido (incluida la carpeta .github) a la raíz del repositorio.
+   En GitHub web: Add file > Upload files. Asegúrate de que .github/workflows/build-ipa.yml queda en esa ruta.
+4. Abre Actions en el repositorio.
+5. Selecciona "Build TimeRepeat IPA" y pulsa "Run workflow".
+6. Cuando termine, entra en la ejecución y descarga el artefacto "TimeRepeat-unsigned-IPA".
+7. Descomprime el artefacto: dentro estará TimeRepeat-unsigned.ipa.
+8. Abre Sideloadly en Windows, conecta el iPhone y selecciona el IPA.
+
+No añadas contraseñas, certificados ni datos Apple a GitHub.
+La compilación en GitHub solo construye el IPA; Sideloadly realiza la firma e instalación.
+
+Nota: es una primera versión. Las notificaciones locales pueden sonar con el teléfono bloqueado si están permitidas,
+pero el modo silencio/Enfoque puede silenciarlas. La app normal no puede saltarse el silencio.
